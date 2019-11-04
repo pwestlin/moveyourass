@@ -1,2 +1,4 @@
 #r2dbc.h2.url: r2dbc:h2:mem://./testdb;DB_CLOSE_DELAY=-1
 r2dbc.h2.url: "mem:test;DB_CLOSE_DELAY=-1"
+
+spring.mustache.suffix: .html

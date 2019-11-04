@@ -1,0 +1,18 @@
+{{> header}}
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>firstname</th>
+        <th>lastname</th>
+    </tr>
+    {{#users}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{firstname}}</td>
+            <td>{{lastname}}</td>
+        </tr>
+    {{/users}}
+</table>
+
+{{> footer}}

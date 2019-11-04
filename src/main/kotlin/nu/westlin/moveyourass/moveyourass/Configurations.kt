@@ -39,8 +39,7 @@ val dataConfig = configuration {
 val initDatabaseWithDataConfig = configuration {
     listener<ApplicationReadyEvent> {
         runBlocking {
-            val a =
-                ref<UserRepository>().setupTestData()
+            ref<UserRepository>().setupTestData()
         }
     }
 }

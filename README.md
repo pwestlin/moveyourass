@@ -7,7 +7,7 @@ It is implemented with:
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [Spring Webflux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
 * [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
-* [Mustasche Web Framework](https://mustache.github.io/)
+* [Mustache Web Framework](https://mustache.github.io/)
 
 
 Things to consider:

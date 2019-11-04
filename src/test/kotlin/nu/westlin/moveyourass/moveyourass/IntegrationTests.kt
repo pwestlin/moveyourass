@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBodyList
@@ -37,6 +38,19 @@ internal class IntegrationTests {
                     User("peterw", "Peter", "Westlin"),
                     User("camillal", "Camilla", "Löfling")
                 )
+        }
+    }
+
+    @Nested
+    @DisplayName("view")
+    inner class ViewTest {
+
+        @Test
+        fun `all users`() {
+            client.get().uri("/").accept(MediaType.TEXT_HTML)
+                .exchange()
+                .expectStatus().isOk
+                .expectHeader().contentType("${MediaType.TEXT_HTML};charset=UTF-8")
         }
     }
 

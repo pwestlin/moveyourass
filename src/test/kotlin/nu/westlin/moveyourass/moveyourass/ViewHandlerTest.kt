@@ -20,7 +20,7 @@ internal class ViewHandlerTest {
     }
 
     @Test
-    fun `How to test models?`() {
-        // TODO petves: How to test?
+    fun `howto test?`() {
+        // TODO petves: Howto unit test views?
     }
 }

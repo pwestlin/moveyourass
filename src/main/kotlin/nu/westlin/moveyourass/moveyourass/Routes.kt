@@ -5,6 +5,7 @@ import org.springframework.web.reactive.function.server.coRouter
 
 fun viewRoutes(viewHandler: ViewHandler) = coRouter {
     GET("/", viewHandler::allUsersView)
+    GET("/index.html", viewHandler::allUsersView)
 }
 
 fun apiRoutes(apiHandler: ApiHandler) = coRouter {
