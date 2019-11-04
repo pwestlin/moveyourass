@@ -1,7 +1,6 @@
 package nu.westlin.moveyourass.moveyourass
 
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -11,8 +10,8 @@ import org.springframework.boot.WebApplicationType
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.fu.kofu.application
 import org.springframework.transaction.reactive.TransactionalOperator
-import org.springframework.transaction.reactive.executeAndAwait
 
+// TODO petves: Yes, I know that I shouldn't use the repo for testing the repo...
 internal class UserRepositoryTest {
 
     private val dataApp = application(WebApplicationType.NONE) {
@@ -39,8 +38,8 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `get all`() {
-        executeAndRollBack {
+    fun `all users`() {
+        executeAndRollBack(txOperator) {
             assertThat(repository.all().toList()).isEmpty()
 
             val user1 = User("foo", "Fo", "O").also { repository.create(it) }
@@ -51,27 +50,25 @@ internal class UserRepositoryTest {
     }
 
     @Test
-    fun `get all2`() {
-        executeAndRollBack {
-            assertThat(repository.all().toList()).isEmpty()
-
-            val user1 = User("foo", "Fo", "O").also { repository.create(it) }
-            val user2 = User("foobar", "Foo", "Bar").also { repository.create(it) }
-
-            assertThat(repository.all().toList()).containsExactlyInAnyOrder(user1, user2)
+    fun `create user`() {
+        executeAndRollBack(txOperator) {
+            val user = User("foo", "Fo", "O").also { repository.create(it) }
+            assertThat(repository.get(user.id)).isEqualTo(user)
         }
     }
 
-    // TODO petves: Move to top-level function?
-    /**
-     * Runs [block] and rolls back the database transaction.
-     */
-    private fun executeAndRollBack(block: suspend () -> Unit) {
-        runBlocking {
-            txOperator.executeAndAwait {
-                block()
-                it.setRollbackOnly()
-            }
+    @Test
+    fun `get a user`() {
+        executeAndRollBack(txOperator) {
+            val user = User("foo", "Fo", "O").also { repository.create(it) }
+            assertThat(repository.get(user.id)).isEqualTo(user)
+        }
+    }
+
+    @Test
+    fun `get a user that does not exist`() {
+        executeAndRollBack(txOperator) {
+            assertThat(repository.get("ghw4u67fuwv")).isNull()
         }
     }
 }
