@@ -4,7 +4,7 @@ import org.springframework.boot.WebApplicationType
 import org.springframework.fu.kofu.application
 
 val app = application(WebApplicationType.REACTIVE) {
-    //configurationProperties<SampleProperties>(prefix = "sample")
+    enable(loggingConfig)
     enable(dataConfig)
     enable(initDatabaseWithDataConfig)
     enable(webConfig)

@@ -5,16 +5,20 @@ import io.r2dbc.h2.H2ConnectionFactory
 import io.r2dbc.spi.ConnectionFactory
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.boot.logging.LogLevel
 import org.springframework.data.r2dbc.connectionfactory.R2dbcTransactionManager
 import org.springframework.data.r2dbc.core.DatabaseClient
 import org.springframework.fu.kofu.configuration
+import org.springframework.fu.kofu.webflux.mustache
+import org.springframework.fu.kofu.webflux.webFlux
 import org.springframework.transaction.ReactiveTransactionManager
 import org.springframework.transaction.reactive.TransactionalOperator
 
 val dataConfig = configuration {
     beans {
-        // I can't use the below DSL because it has no transaction configuration and I want that
+        // I can't use the r2dbcH2() DSL because it has no transaction configuration and I want that
         //r2dbcH2()
+
         configurationProperties<H2R2dbcProperties>(prefix = "r2dbc.h2")
         bean(::h2ConnectionConfiguration)
         bean(::h2ConnectionFactory)
@@ -41,8 +45,28 @@ val initDatabaseWithDataConfig = configuration {
     }
 }
 
+val loggingConfig = configuration {
+    logging {
+        level = LogLevel.WARN
+        level("nu.westlin.moveyourass.moveyourass", LogLevel.DEBUG)
+    }
+}
+
 val webConfig = configuration {
-    // TODO petves: Impl
+    beans {
+        bean<ViewHandler>()
+        bean<ApiHandler>()
+        bean(::viewRoutes)
+        bean(::apiRoutes)
+    }
+
+    webFlux {
+        mustache()
+        codecs {
+            string()
+            jackson()
+        }
+    }
 }
 
 private fun transactionalOperator(txMgr: ReactiveTransactionManager): TransactionalOperator {
