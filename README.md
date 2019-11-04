@@ -9,3 +9,10 @@ It is implemented with:
 * [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
 * [Mustasche Web Framework](https://mustache.github.io/)
 
+
+Things to consider:
+* Use [Spring Kofu](https://github.com/spring-projects-experimental/spring-fu/tree/master/kofu)? 
+
+TODO's:
+* i18n
+* more tests... :)
