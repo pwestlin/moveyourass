@@ -51,6 +51,7 @@ internal class IntegrationTests {
                 .exchange()
                 .expectStatus().isOk
                 .expectHeader().contentType("${MediaType.TEXT_HTML};charset=UTF-8")
+                .expectBody().xpath("/html/head/title").isEqualTo("Move your ass!")
         }
     }
 
