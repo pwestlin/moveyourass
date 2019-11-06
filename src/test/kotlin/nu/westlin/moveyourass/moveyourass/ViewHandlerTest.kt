@@ -8,6 +8,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 internal class ViewHandlerTest {
 
     private val userRepository = mockk<UserRepository>()
+    private val sessionRepository = mockk<TrainingSessionRepository>()
     private lateinit var client: WebTestClient
 
     private val user1 = User("user1", "User", "1")
@@ -16,7 +17,7 @@ internal class ViewHandlerTest {
     @Suppress("unused")
     @BeforeAll
     private fun init() {
-        client = WebTestClient.bindToRouterFunction(viewRoutes(ViewHandler(userRepository))).build()
+        client = WebTestClient.bindToRouterFunction(viewRoutes(ViewHandler(userRepository, sessionRepository))).build()
     }
 
     @Test

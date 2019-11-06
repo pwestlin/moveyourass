@@ -10,15 +10,19 @@ import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.renderAndAwait
 
 @Suppress("UNUSED_PARAMETER")
-class ViewHandler(private val userRepository: UserRepository) {
+class ViewHandler(private val userRepository: UserRepository, private val sessionRepository: TrainingSessionRepository) {
 
     suspend fun allUsersView(request: ServerRequest): ServerResponse {
         return ok().renderAndAwait("users", mapOf("users" to userRepository.all()))
     }
+
+    suspend fun allSessionsForUserView(request: ServerRequest): ServerResponse {
+        return ok().renderAndAwait("sessions", mapOf("sessions" to sessionRepository.allByUserId(request.pathVariable("id"))))
+    }
 }
 
 @Suppress("UNUSED_PARAMETER")
-class ApiHandler(private val userRepository: UserRepository) {
+class ApiHandler(private val userRepository: UserRepository, private val sessionRepository: TrainingSessionRepository) {
 
     suspend fun allUsers(request: ServerRequest): ServerResponse {
         return ok().bodyAndAwait(userRepository.all())
@@ -29,5 +33,9 @@ class ApiHandler(private val userRepository: UserRepository) {
             null -> notFound().buildAndAwait()
             else -> ok().bodyValueAndAwait(user)
         }
+    }
+
+    suspend fun allSessionsByUserId(request: ServerRequest): ServerResponse {
+        return ok().bodyAndAwait(sessionRepository.allByUserId(request.pathVariable("id")))
     }
 }

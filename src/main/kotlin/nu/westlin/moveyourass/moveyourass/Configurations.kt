@@ -27,11 +27,13 @@ val dataConfig = configuration {
         bean(::databaseClient)
 
         bean<UserRepository>()
+        bean<TrainingSessionRepository>()
     }
 
     listener<ApplicationReadyEvent> {
         runBlocking {
             ref<UserRepository>().init()
+            ref<TrainingSessionRepository>().init()
         }
     }
 }
@@ -40,6 +42,7 @@ val initDatabaseWithDataConfig = configuration {
     listener<ApplicationReadyEvent> {
         runBlocking {
             ref<UserRepository>().setupTestData()
+            ref<TrainingSessionRepository>().setupTestData()
         }
     }
 }

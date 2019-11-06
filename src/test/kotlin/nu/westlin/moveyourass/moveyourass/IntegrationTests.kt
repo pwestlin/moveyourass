@@ -1,5 +1,6 @@
 package nu.westlin.moveyourass.moveyourass
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
@@ -38,6 +39,19 @@ internal class IntegrationTests {
                     User("peterw", "Peter", "Westlin"),
                     User("camillal", "Camilla", "Löfling")
                 )
+        }
+
+        @Test
+        fun `all sessions by user id`() {
+            val users: List<TrainingSession>? = client.get().uri("/api/sessions/user/peterw").accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk
+                .expectHeader().contentType(APPLICATION_JSON)
+                .expectBodyList<TrainingSession>().returnResult().responseBody
+
+            assertThat(users)
+                .hasSize(3)
+                .allMatch { it.userId == "peterw" }
         }
     }
 

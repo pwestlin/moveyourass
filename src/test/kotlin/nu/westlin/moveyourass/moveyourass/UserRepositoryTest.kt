@@ -26,7 +26,7 @@ internal class UserRepositoryTest {
     @BeforeAll
     private fun beforeAll() {
         ctx = dataApp.run()
-        println("ctx.beanDefinitionNames = \n" + ctx.beanDefinitionNames.joinToString("\n"))
+
         repository = ctx.getBean()
         txOperator = ctx.getBean()
     }

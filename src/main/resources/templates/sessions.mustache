@@ -1,0 +1,22 @@
+{{> header}}
+
+<table>
+    <tr>
+        <th>user</th>
+        <th>date</th>
+        <th>form</th>
+        <th>duration</th>
+        <th>comment</th>
+    </tr>
+    {{#sessions}}
+        <tr>
+            <td>{{userId}}</td>
+            <td>{{dateTime}}</td>
+            <td>{{form}}</td>
+            <td>{{duration}}</td>
+            <td>{{#comment}}{{{comment}}}{{/comment}}{{^comment}}{{/comment}}</td>
+        </tr>
+    {{/sessions}}
+</table>
+
+{{> footer}}
